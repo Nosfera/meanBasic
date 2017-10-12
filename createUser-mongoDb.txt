@@ -1,0 +1,12 @@
+
+mongod -> starts service
+
+mongo -> conects to db
+show dbs -> show databases
+use --xxxx -> select database
+show collections -> shows tables on selected db
+
+db.createUser ({ user: "list",
+  pwd: "1234",
+  roles: ["readWrite","dbAdmin"]
+});

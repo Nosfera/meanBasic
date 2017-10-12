@@ -1,0 +1,39 @@
+Collections are tables, kind of
+db.createCollection('tasks')
+db.tasks.insert({title:"1", idDone:false})
+db.tasks.insert({title:"do grosseries", idDone:false})
+db.tasks.insert({title:"washing clothes", idDone:false})
+
+
+db.tasks.find().pretty();
+
+//Modifica todos los valores para el match
+db.tasks.update({_id:ObjectId("59bee2e0ba7144e3769940af")},{title:"do 2"})
+
+db.tasks.update({_id:ObjectId("59bee2e0ba7144e3769940af")},{$set:{remainingTime:90}})
+
+db.tasks.update({_id:ObjectId("59bee2e0ba7144e3769940af")},{$unset:{remainingTime:90}})
+
+
+db.tasks.insert([
+	{title:"3", idDone:false},
+	{title:"4", idDone:true},
+	{title:"5", idDone:false},
+	]);
+
+// Drop ---eliminate DB
+> use wantToDeleteDB
+> db.dropDatabase();
+
+// Drop ---eliminate Collection
+! Go to the DB that contains the desired <collection> *
+> db.<collectionName>.drop()
+
+// List / show entries
+> show dbs
+> use <db name>
+> show collections
+> db.collectionName.find() *
+> db.collectionName.find().pretty *
+
+* Don't enter/use "use <collection name>" because find() won't list anything
