@@ -3,13 +3,18 @@ var router = express.Router();
 var mongojs = require('mongojs');
 // db , collection 
 
-//db mylist
-//collection tasks
 var dbName = "mylist";
 var dbCollection = "tasks"
-var dblocal = "http://localhost:27017"
+var dbUser = "list"
+var dbPass = "1234"
+var dblocal = "mongodb://"+dbUser+":"+dbPass+"@localhost:27017/"
 
-var db = mongojs('list:1234@localhost:27017/', ['tasks'],{ ssl: true });
+
+// Lets try connecting MongoDB URI
+var db = mongojs(dblocal+dbName, [dbCollection]);
+// var db = mongojs('list:1234@localhost:27017/', ['tasks'],{ ssl: true });
+
+
 db.on('error', function (err) {
     console.log('database error', err)
 })
@@ -18,13 +23,7 @@ db.on('connect', function () {
     console.log('database connected')
 })
 
-/*router.get('/tasks', function(req, res, next){
-	res.send('TASK API');
-
-});
-*/
-
-//get All tasks
+// Get All tasks
 router.get ('/tasks', function(req, res, next){
 	//res.send('TASK API');
 	db.tasks.find(function(err, tasks){
@@ -36,8 +35,8 @@ router.get ('/tasks', function(req, res, next){
 
 });
 
-//get Single tasks
-router.get ('/tasks/:id', function(req, res, next){
+// Get Single tasks
+router.get ('/task/:id', function(req, res, next){
 	//res.send('TASK API');
 	// condition on {}
 	db.tasks.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, task){
@@ -68,7 +67,7 @@ router.post('/task', function(req,res, next){
 	});
 
 //DELETE Single tasks
-router.delete ('/tasks/:id', function(req, res, next){
+router.delete ('/task/:id', function(req, res, next){
 	db.tasks.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, task){
 		if(err){
 			res.send(err);
@@ -79,8 +78,9 @@ router.delete ('/tasks/:id', function(req, res, next){
 });
 
 //UPDATE Single tasks
-router.put ('/tasks/:id', function(req, res, next){
+router.put ('/task/:id', function(req, res, next){
 	var task = req.body;
+	// UPDATE
 	var updTask = {};
 
 	if(task.idDone){
@@ -106,3 +106,20 @@ router.put ('/tasks/:id', function(req, res, next){
 
 });
 module.exports= router;
+
+
+
+
+// Mongo BASIC Connection URL
+// var MongoClient = require('mongodb').MongoClient, assert = require('assert');
+// var url2 = 'mongodb://localhost:27017/mylist';
+
+// Use connect method to connect to the server
+/* MongoClient.connect(url2, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected succesfully to server");
+
+  db.close();
+});
+
+*/

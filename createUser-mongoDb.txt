@@ -1,3 +1,5 @@
+// ON W10
+// C:\Program Files\MongoDB\Server\3.4\bin
 
 mongod -> starts service
 
@@ -6,7 +8,65 @@ show dbs -> show databases
 use --xxxx -> select database
 show collections -> shows tables on selected db
 
+> show collections
+postdatas
+tasks
+
 db.createUser ({ user: "list",
   pwd: "1234",
   roles: ["readWrite","dbAdmin"]
+});
+
+show Users
+
+> db.getUsers()
+[
+        {
+                "_id" : "mylist.list",
+                "user" : "list",
+                "db" : "mylist",
+                "roles" : [
+                        {
+                                "role" : "readWrite",
+                                "db" : "mylist"
+                        },
+                        {
+                                "role" : "dbAdmin",
+                                "db" : "mylist"
+                        }
+                ]
+        }
+]
+>
+
+// Using MongoJS: https://github.com/mafintosh/mongojs
+var mongojs = require('mongojs');
+
+var dbName = "mylist";
+var dbCollection = "tasks"
+var dblocal = "mongodb://localhost:27017/"
+
+// Lets try connecting MongoDB URI
+var db = mongojs(dblocal+dbName, [dbCollection]);
+
+
+// Mongo DB default port in this project 27017
+http://localhost:27017/mylist
+
+// connection
+mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+
+// OR
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+
+// Connection URL
+var url = 'mongodb://localhost:27017/mylist';
+
+// Use connect method to connect to the server
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected succesfully to server");
+
+  db.close();
 });
